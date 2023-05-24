@@ -13,10 +13,7 @@ export function createTask(req: Request, res: Response) {
 
     const { titulo } = req.body;
     const concluida = false;
-    //const newId = Number(id);
     const id = ++maxId;
-
-    console.log(id);
 
     const existingTask = tasks.find((task) => task.id === id);
     if (existingTask) {
