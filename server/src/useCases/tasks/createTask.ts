@@ -3,17 +3,29 @@ import { tasks } from "../../models/Task";
 
 export function createTask(req: Request, res: Response) {
   try {
-    const { id, titulo, concluida } = req.body;
-    const newId = Number(id);
+    let maxId = 0;
 
-    const existingTask = tasks.find((task) => task.id === newId);
+    for (const task of tasks) {
+      if (task.id > maxId) {
+        maxId = task.id;
+      }
+    }
+
+    const { titulo } = req.body;
+    const concluida = false;
+    //const newId = Number(id);
+    const id = ++maxId;
+
+    console.log(id);
+
+    const existingTask = tasks.find((task) => task.id === id);
     if (existingTask) {
       return res.status(400).json({
         error: "ID alredy exist.",
       });
     }
 
-    const newTask = { id: newId, titulo, concluida };
+    const newTask = { id: id, titulo, concluida };
     tasks.push(newTask);
 
     res.json(newTask);
